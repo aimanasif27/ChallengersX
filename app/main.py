@@ -6,6 +6,8 @@ from dotenv import load_dotenv
 import requests
 from bs4 import BeautifulSoup
 
+from checkpost import check_linkedin_post, check_twitter_post
+
 # Load environment variables from .env file
 load_dotenv()
 # Access the TOKEN environment variable
@@ -39,13 +41,12 @@ async def ndaysofcode(ctx, *args):
         await ctx.send("You didn't provide a link.")
     else:
         link = ' '.join(args)
-        if link.startswith('https://www.linkedin.com') or link.startswith('https://twitter.com'):
-            if checkpost(link):
+        if link.startswith('https://www.linkedin.com') and check_linkedin_post(link):
                 await ctx.send("We noted your response!")
-            else:
-                await ctx.send("You provided incorrect LinkedIn or Twitter post link!")
+        elif link.startswith('https://twitter.com') and check_twitter_post(link):
+            await ctx.send("We noted your response!")
         else:
-            await ctx.send("You didn't provid correct LinkedIn or Twitter post link!")
+            await ctx.send("You didn't provide correct LinkedIn or Twitter post link!")
 
 # Command: Help
 @bot.command()
