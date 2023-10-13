@@ -40,7 +40,7 @@ async def ndaysofcode(ctx, *args):
     else:
         link = ' '.join(args)
         if link.startswith('https://www.linkedin.com') or link.startswith('https://twitter.com'):
-            if checkthepost(link):
+            if checkpost(link):
                 await ctx.send("We noted your response!")
             else:
                 await ctx.send("You provided incorrect LinkedIn or Twitter post link!")
@@ -62,7 +62,11 @@ async def on_command_error(ctx, error):
 bot.run(TOKEN)
 
 
-def checkpost(url:String) -> bool:
+def checkpost(url:str) -> bool:
+
+    '''
+        This function checkpost() returns True or False if the post is valid or invalid respectively.
+    '''
 
     # Send an HTTP GET request to the URL
     response = requests.get(url)
