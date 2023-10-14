@@ -4,23 +4,6 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-
-
-
-# from webdriver_manager.chrome import ChromeDriverManager
-
-# from selenium.webdriver.chrome.options import Options
-
-# chrome_options = Options()
-# chrome_options.add_argument("--headless")
-
-# driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
 
 
 def check_linkedin_post(url: str) -> bool:
@@ -94,6 +77,7 @@ def check_twitter_post(url: str) -> bool:
 
         tweet = soup.find("div", class_='css-901oao r-18jsvk2 r-37j5jr r-1inkyih r-16dba41 r-135wba7 r-bcqeeo r-bnwqim r-qvutc0').text
         print(tweet)
+
 
         if '#365DaysofCode' not in tweet:
             driver.quit()

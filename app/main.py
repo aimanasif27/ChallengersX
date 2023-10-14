@@ -7,7 +7,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from checkpost import check_linkedin_post, check_twitter_post
-
+from mongo import insert_details
 # Load environment variables from .env file
 load_dotenv()
 # Access the TOKEN environment variable
@@ -31,19 +31,28 @@ async def register(ctx, *args):
     if not args:
         await ctx.send("You didn't provide an event.")
     else:
-        sentence = ' '.join(args)
-        await ctx.send(f'We will be adding this functionality soon to register you for {sentence}!')
+        event = ' '.join(args)
+        # user = ctx.author
+        # add_event(user.mention, event)
+
+        user = ctx.author
+        
+        print(user)
+        await ctx.send(f'{user}, We will be adding this functionality soon to register you for {event}!')
     
 # Command: ndaysofcode
 @bot.command()
-async def ndaysofcode(ctx, *args):
+async def _30daysofcode(ctx, *args):
+    event = '#30daysofcode'
     if not args:
         await ctx.send("You didn't provide a link.")
     else:
         link = ' '.join(args)
         if link.startswith('https://www.linkedin.com') and check_linkedin_post(link):
-                await ctx.send("We noted your response!")
+            insert_details(ctx.author, event, link)
+            await ctx.send("We noted your response!")
         elif link.startswith('https://twitter.com') and check_twitter_post(link):
+            insert_details(ctx.author, event, link)
             await ctx.send("We noted your response!")
         else:
             await ctx.send("You didn't provide correct LinkedIn or Twitter post link!")
@@ -61,28 +70,3 @@ async def on_command_error(ctx, error):
 
 
 bot.run(TOKEN)
-
-
-def checkpost(url:str) -> bool:
-
-    '''
-        This function checkpost() returns True or False if the post is valid or invalid respectively.
-    '''
-
-    # Send an HTTP GET request to the URL
-    response = requests.get(url)
-
-    # Check if the request was successful
-    if response.status_code == 200:
-        # Parse the HTML content of the page
-        soup = BeautifulSoup(response.text, "html.parser")
-
-        # Find all the article titles by inspecting the HTML structure
-        articles = soup.find_all("h2", class_="article-title")
-
-        # Iterate through the list of articles and print their titles
-        for article in articles:
-            print(article.text)
-    else:
-        print("Failed to retrieve the web page. Status code:", response.status_code)
-

@@ -3,3 +3,4 @@ requests
 BeautifulSoup4
 load_dotenv
 selenium
+pymongo
