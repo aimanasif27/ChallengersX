@@ -6,7 +6,7 @@ from selenium import webdriver
 from selenium import webdriver
 
 
-def check_linkedin_post(url: str) -> bool:
+def check_linkedin_post(url: str, event: str) -> bool:
     '''This function checkLinkedinpost() returns True or False if the post is valid or invalid respectively.'''
 
     # Send an HTTP GET request to the URL
@@ -36,8 +36,9 @@ def check_linkedin_post(url: str) -> bool:
 
         print('Title -> ', title)
         print(post_content)
+        print(image_list_items)
 
-        if '#365DaysofCode' not in post_content:
+        if event not in post_content:
             return False
 
         # Extract the src attributes of each image
@@ -58,7 +59,7 @@ def check_linkedin_post(url: str) -> bool:
     return True
 
 
-def check_twitter_post(url: str) -> bool:
+def check_twitter_post(url: str, event: str) -> bool:
     '''This function checkTwitterpost() returns True or False if the post is valid or invalid respectively.'''
     
     # Specify the path to the Chrome WebDriver
@@ -79,7 +80,7 @@ def check_twitter_post(url: str) -> bool:
         print(tweet)
 
 
-        if '#365DaysofCode' not in tweet:
+        if event not in tweet:
             driver.quit()
             return False
 
@@ -102,17 +103,3 @@ def check_twitter_post(url: str) -> bool:
 
     return True
 
-
-# LinkedIn Runner
-# link = 'https://twitter.com/The_LoneArtist/status/1712146803951312913'
-
-# link = 'https://www.linkedin.com/posts/neelmishra07_day166-365daysofcode-scalerdiscord-activity-7118064337751072770-67vS?utm_source=share&utm_medium=member_desktop'
-# link2 = 'https://www.linkedin.com/posts/ghanshyam-prajapati_what-do-you-do-if-someone-is-threatening-activity-7094201355233374208-6gor?utm_source=share&utm_medium=member_desktop'
-# print('Status: ', check_linkedin_post(link))
-
-
-
-# Twitter Runner
-# TWEET_LINK = 'https://twitter.com/The_LoneArtist/status/1712146803951312913'
-# TWEET_LINK = 'https://twitter.com/ECISVEEP/status/1130796605009846272'
-# print(check_twitter_post(TWEET_LINK))
